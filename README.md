@@ -1,5 +1,11 @@
 # Cosmo - the codepen for Solidity smart-contracts
 
+## About
+Getting a simple Ethereum Solidity smart-contract running is hard. Cosmo makes it easy.
+
+## Try It Now !
+<a href="http://cosmo.surge.sh">cosmo.surge.sh</a>
+
 ## Install
 
 ```
@@ -9,9 +15,10 @@ npm install
 ```
 
 ## Notable Components
- 1. react-ace -- the ace editor for react
- 2. solc -- the solidity compiler for JS
- 3. testrpc -- an Ethereum protocol node in JS
+ 1. <a href="https://github.com/securingsincity/react-ace" target="_blank">`react-ace`</a> -- the ace editor for react
+ 2. <a href="https://www.npmjs.com/package/solc" target="_blank">`solc`</a> -- the Solidity contract compiler for JS
+ 3. <a href="https://www.npmjs.com/package/ethereumjs-testrpc" target="_blank">`TestRPC`</a> -- an Ethereum protocol node in JS
+ 4. <a href="https://www.npmjs.com/package/brace">`brace`</a> -- browserifiable Ace editor
 
 ## Licence
 

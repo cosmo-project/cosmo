@@ -121,6 +121,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.7.4",
+    "brace": "^0.8.0",
     "chalk": "^1.1.3",
     "compression": "^1.6.1",
     "ethereumjs-testrpc": "^2.0.8",

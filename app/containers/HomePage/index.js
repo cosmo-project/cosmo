@@ -10,12 +10,42 @@
  */
 
 import React from 'react';
+import brace from 'brace'; // eslint-disable-line
+import AceEditor from 'react-ace';
+import TryNowButton from 'components/TryNowButton';
+import styles from './styles.css';
+
+import 'brace/mode/java';
+import 'brace/theme/github';
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
+  constructor() {
+    super();
+    this.contract = '';
+  }
+
+  onChange = (newValue) => {
+    this.contract = newValue;
+    console.log('change', newValue);
+  }
+
+  tryContract = () => {
+    console.log('Something !', this.contract);
+  }
+
   render() {
     return (
-      <h1>This is the Homepage!</h1>
+      <div className={styles.homePage}>
+        <AceEditor
+          mode="java"
+          theme="github"
+          onChange={this.onChange}
+          name="UNIQUE_ID_OF_DIV"
+          editorProps={{ $blockScrolling: true }}
+        />
+        <TryNowButton onClick={this.tryContract} />
+      </div>
     );
   }
 }
