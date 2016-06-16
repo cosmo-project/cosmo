@@ -18,20 +18,52 @@ import styles from './styles.css';
 import 'brace/mode/java';
 import 'brace/theme/github';
 
+const logContract = `contract log {
+  event Log(string _message);
+
+  function log(string _message) {
+    Log(_message);
+  }
+}
+`;
+
+const helloWorldContract = `contract HelloWorld {
+  function HelloWorld() {
+    log("Hello World!!!");
+  }
+}
+`;
+
+function shimLogContract(contractInput) {
+  return logContract + contractInput.replace(/log\("/g, 'new log("').replace(/new\snew\s/g, 'new ');
+}
+
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor() {
     super();
-    this.contract = '';
+    this.editorValue = helloWorldContract;
+    this.contracts = [];
+    this.errors = [];
   }
 
   onChange = (newValue) => {
-    this.contract = newValue;
-    console.log('change', newValue);
+    this.editorContent = newValue;
   }
 
   tryContract = () => {
-    console.log('Something !', this.contract);
+    const compileJSON = Module.cwrap('compileJSON', 'string', ['string', 'number']);   // eslint-disable-line
+    const compiled = JSON.parse(compileJSON(shimLogContract(this.editorValue), true));
+
+    if (typeof compiled.errors === 'undefined') {
+      Object.keys(compiled.contracts).forEach((contractName) => {
+        const contract = compiled.contracts[contractName];
+        console.log(contractName + ': ' + contract.bytecode);  // eslint-disable-line
+        console.log(contractName + '; ' + JSON.parse(contract.interface));  // eslint-disable-line
+      });
+    } else {
+      console.log('Errors !', compiled.errors);  // eslint-disable-line
+    }
   }
 
   render() {
@@ -40,6 +72,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
         <AceEditor
           mode="java"
           theme="github"
+          value={helloWorldContract}
           onChange={this.onChange}
           name="UNIQUE_ID_OF_DIV"
           editorProps={{ $blockScrolling: true }}
