@@ -15,7 +15,7 @@ module.exports = (options) => ({
     loaders: [{
       test: /\.js$/, // Transform all .js files required somewhere with Babel
       loader: 'babel',
-      exclude: /node_modules/,
+      exclude: (/node_modules/),
       query: options.babelQuery,
     }, {
       // Transform our own .css files with PostCSS and CSS-modules

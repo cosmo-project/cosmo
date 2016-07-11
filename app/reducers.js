@@ -6,6 +6,7 @@
 import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import consoleLogReducer from 'containers/ConsoleLog/reducer';
 
 /*
  * routeReducer
@@ -41,6 +42,7 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
+    consoleLog: consoleLogReducer,
     ...asyncReducers,
   });
 }

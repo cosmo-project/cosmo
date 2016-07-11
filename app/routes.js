@@ -12,35 +12,27 @@ const loadModule = (cb) => (componentModule) => {
   cb(null, componentModule.default);
 };
 
-export default function createRoutes() {
+export default function createRoutes() { // store
   // Create reusable async injectors using getHooks factory
-  // const { injectReducer, injectSagas } = getHooks(store);
+  // const { injectReducer } = getHooks(store); // injectSagas
 
-  return [
-    {
-      path: '/',
-      name: 'home',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/HomePage'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '*',
-      name: 'notfound',
-      getComponent(nextState, cb) {
-        System.import('containers/NotFoundPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
+  return [{
+    path: '/',
+    name: 'solidityIde',
+    getComponent(nextState, cb) {
+      System.import('containers/SolidityIde')
+        .then(loadModule(cb))
+        .catch(errorLoading);
     },
+  }, {
+    path: '*',
+
+    name: 'notfound',
+    getComponent(nextState, cb) {
+      System.import('containers/NotFoundPage')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    },
+  },
   ];
 }

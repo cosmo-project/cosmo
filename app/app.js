@@ -9,6 +9,8 @@ import 'babel-polyfill';
 // TODO constrain eslint import/no-unresolved rule to this block
 // Load the manifest.json file and the .htaccess file
 import 'file?name=[name].[ext]!./manifest.json';  // eslint-disable-line import/no-unresolved
+import 'file?name=[name].[ext]!./mode-solidity.js';  // eslint-disable-line import/no-unresolved
+import 'file?name=[name].[ext]!../node_modules/ethereumjs-testrpc/ethereumjs-testrpc.js';  // eslint-disable-line import/no-unresolved
 import 'file?name=[name].[ext]!./.htaccess';      // eslint-disable-line import/no-unresolved
 
 // Import all the third party stuff
