@@ -60,6 +60,7 @@ export class SolidityIde extends React.Component { // eslint-disable-line react/
     this.testrpc = window.TestRPC;
     this.web3 = new Web3(this.testrpc.provider());
     this.account = '0x';
+    this.state = { windowWidth: window.innerWidth };
     this.txObject = fromJS({
       from: '0x',
       gas: 300000,
@@ -75,8 +76,20 @@ export class SolidityIde extends React.Component { // eslint-disable-line react/
     });
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize.bind(this));
+  }
+
   onChange = (newValue) => {
     this.editorValue = newValue;
+  }
+
+  handleResize() {
+    this.state.windowWidth = window.innerWidth;
   }
 
   tryContract = () => {
@@ -136,20 +149,44 @@ export class SolidityIde extends React.Component { // eslint-disable-line react/
   }
 
   render() {
+    const rightColumnStyle = {
+      width: `${(this.state.windowWidth / 2) - 10}px`,
+      height: `${window.innerHeight || document.documentElement.clientHeight || document.documentElement.getElementsByTagName('body')[0].clientHeight}px`,
+      display: 'block',
+      margin: '0px',
+      padding: '0px',
+      float: 'right',
+    };
+
+    const leftColumnStyle = {
+      width: `${(this.state.windowWidth / 2) - 10}px`,
+      height: `${window.innerHeight || document.documentElement.clientHeight || document.documentElement.getElementsByTagName('body')[0].clientHeight}px`,
+      display: 'block',
+      margin: '0px',
+      padding: '0px',
+      float: 'left',
+    };
+
     return (
       <div className={styles.solidityIde}>
-        <AceEditor
-          mode="javascript"
-          theme="github"
-          className="ace-tm"
-          fontSize={15}
-          value={runContract}
-          onChange={this.onChange}
-          name="SolidityContractAceEditor"
-          editorProps={{ $blockScrolling: true }}
-        />
-        <TryNowButton onClick={this.tryContract} />
-        <ConsoleLog />
+        <div style={leftColumnStyle}>
+          <AceEditor
+            mode="javascript"
+            theme="github"
+            className="ace-tm"
+            width={`${(this.state.windowWidth / 2) - 10}px`}
+            height={`${window.innerHeight || document.documentElement.clientHeight || document.documentElement.getElementsByTagName('body')[0].clientHeight}px`}
+            fontSize={16}
+            value={this.editorValue}
+            onChange={this.onChange}
+            name="SolidityContractAceEditor"
+            editorProps={{ $blockScrolling: true }}
+          />
+        </div>
+        <div style={rightColumnStyle}>
+          <TryNowButton onClick={this.tryContract} />
+          <ConsoleLog />
+        </div>
       </div>
     );
   }
